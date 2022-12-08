@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { CreateProductDto } from './dto/createProduct.dto';
 import { Product, ProductDocument } from './schemas/product.schema';
-import { HydratedDocument, Model } from 'mongoose';
+import { Model } from 'mongoose';
 import { InjectModel } from '@nestjs/mongoose';
 
 @Injectable()
@@ -10,7 +10,7 @@ export class ProductsService {
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
   ) {}
 
-  async getAll(): Promise<Array<HydratedDocument<ProductDocument>>> {
+  async getAll(): Promise<ProductDocument[]> {
     return this.productModel.find().exec();
   }
 
@@ -18,8 +18,13 @@ export class ProductsService {
     return this.productModel.findById(id);
   }
 
-  async createProduct(data: CreateProductDto) {
-    const product = new this.productModel(data);
+  async createProduct(data: CreateProductDto, file: Express.Multer.File) {
+    const product = new this.productModel({
+      title: data.title,
+      description: data.description,
+      price: data.price,
+      image: file ? '/uploads/products/' + file.filename : null,
+    });
     await product.save();
   }
 
