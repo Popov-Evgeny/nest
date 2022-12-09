@@ -1,5 +1,8 @@
 {
   "version": 2,
+  "env": {
+    "MONGO_URI": "nest-xics.vercel.app"
+  },
   "builds": [
     {
       "src": "src/main.ts",
