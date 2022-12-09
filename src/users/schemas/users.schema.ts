@@ -3,7 +3,7 @@ import { Prop, SchemaFactory, Schema } from '@nestjs/mongoose';
 import { nanoid } from 'nanoid';
 import * as bcrypt from 'bcrypt';
 
-const SALT_WORK_FACTOR = 20;
+const SALT_WORK_FACTOR = 10;
 export type UsersDocument = Users & Document;
 
 @Schema()
